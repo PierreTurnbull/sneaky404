@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Are you lost?</title>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:500,900">
+
+	<link rel="stylesheet" href="reset.css">
+	<style>
+		body {
+			font-family: "Roboto Slab";
+			background-color: #02080D;
+			color: #02080D;
+		}
+
+		h1 {
+			font-size: 40px;
+			font-weight: 900;
+			margin-bottom: 1em;
+		}
+
+		p,
+		a {
+			font-size: 14px;
+			height: 1em;
+			margin-bottom: 20px;
+			margin-bottom: 2em;
+		}
+
+		#shadowTitle {
+			color: #EEFAFA;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		#lightContainer {
+			position: relative;
+			display: flex;
+			height: 100vh;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			background-color: #EEFAFA;
+			clip-path: circle(50px at 0 50px)
+		}
+
+		#scrollDownHint {
+			margin-bottom: 40px;
+			animation: scrollDownHint 2s linear infinite;
+		}
+
+		@keyframes scrollDownHint {
+			0% {
+				transform: translateY(-100%);
+				opacity: 0;
+			}
+
+			25% {
+				transform: translateX(0);
+				opacity: 1;
+			}
+
+			50% {
+				transform: translateY(100%);
+				opacity: 0;
+			}
+
+			100% {
+				transform: translateY(100%);
+				opacity: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<h1 id="shadowTitle">Are you lost?</h1>
+	<div id="lightContainer">
+		<h1 id="lightTitle">Are you lost?</h1>
+		<p id="scrollDownHint">↓</p>
+		<p id="errorCode">Page not found</p>
+		<a href="/" id="redirectionLink">Go back to the home page</a>
+	</div>
+</body>
+
+<script>
+	document.addEventListener("mousemove", (event) => {
+		const cursorX = event.clientX
+		const cursorY = event.clientY
+
+		const lightContainerEl = document.querySelector("#lightContainer")
+
+		lightContainerEl.style.clipPath = `circle(75px at ${event.clientX}px ${event.clientY}px)`
+	})
+
+	const shadowTitleEl = document.querySelector("#shadowTitle")
+	const lightTitleEl = document.querySelector("#lightTitle")
+
+	document.querySelectorAll("body > *").forEach(el => el.style.visibility = "hidden")
+
+	document.fonts.ready.then(() => {
+		document.querySelectorAll("body > *").forEach(el => el.style.visibility = "")
+
+		shadowTitleEl.style.top = `${lightTitleEl.offsetTop}px`
+		shadowTitleEl.style.left = `${lightTitleEl.offsetLeft}px`
+	})
+</script>
+
+</html>
